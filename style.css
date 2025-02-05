@@ -1,0 +1,122 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    color: #333;
+    text-align: center;
+    line-height: 1.6;
+}
+
+.portfolio-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+header h1 {
+    font-size: 3em;
+    margin-bottom: 0.5em;
+    color: #333;
+    animation: fadeIn 2s ease-in-out;
+}
+
+header p {
+    font-size: 1.5em;
+    color: #666;
+    animation: fadeIn 2.5s ease-in-out;
+}
+
+.profile-section {
+    margin-top: 60px;
+}
+
+.profile-img-container {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto;
+    border-radius: 50%;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+
+.profile-img-container:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.zoom-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    border-radius: 50%;
+}
+
+.bio {
+    margin-top: 30px;
+    animation: slideUp 1.5s ease-in-out;
+}
+
+.bio h2 {
+    font-size: 2em;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.bio p {
+    font-size: 1.2em;
+    color: #555;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+footer {
+    margin-top: 60px;
+    font-size: 1em;
+    color: #888;
+    animation: fadeIn 3s ease-in-out;
+}
+
+footer p {
+    margin-bottom: 10px;
+}
+
+footer a {
+    color: #666;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+footer a:hover {
+    color: #333;
+    text-decoration: underline;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
