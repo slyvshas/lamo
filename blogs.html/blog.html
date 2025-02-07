@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <style>/* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #3498db;
+        }
+        
+        a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Blog Container */
+        .blog-container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Header Section */
+        .blog-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .blog-header h1 {
+            font-size: 36px;
+            color: #2c3e50;
+        }
+        
+        .blog-header p {
+            font-size: 18px;
+            color: #7f8c8d;
+        }
+        
+        /* Blog Posts Section */
+        .blog-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* Single Blog Post */
+        .blog-post {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .blog-post .post-title {
+            font-size: 28px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+        
+        .blog-post .post-excerpt {
+            font-size: 16px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        
+        .blog-post .read-more {
+            font-size: 16px;
+            color: #3498db;
+            font-weight: bold;
+        }
+        
+        .blog-post .read-more:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer Section */
+        .blog-footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+        }
+        
+        .blog-footer p {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+        
+        .blog-footer a {
+            color: #3498db;
+        }
+        
+        .blog-footer a:hover {
+            text-decoration: underline;
+        }
+        </style>
+    <div class="blog-container">
+        <!-- Header Section -->
+        <header class="blog-header">
+            <h1>Welcome to My Blog</h1>
+            <p>Stay updated with the latest posts on web development, design, and more!</p>
+        </header>
+
+        <!-- Blog Post Section -->
+        <section class="blog-posts">
+            <!-- Blog Post 1 -->
+            <div class="blog-post">
+                <h2 class="post-title">How to Build Your First Website</h2>
+                <p class="post-excerpt">Building a website from scratch is easier than you think. In this post, we will walk through the steps of creating your first website...</p>
+                <a href="post1.html" class="read-more">Read More</a>
+            </div>
+
+            <!-- Blog Post 2 -->
+            <div class="blog-post">
+                <h2 class="post-title">10 Web Design Trends for 2025</h2>
+                <p class="post-excerpt">Web design is constantly evolving. In this article, we explore the top design trends you should follow in 2025...</p>
+                <a href="post2.html" class="read-more">Read More</a>
+            </div>
+
+            <!-- Blog Post 3 -->
+            <div class="blog-post">
+                <h2 class="post-title">The Best Tools for Web Developers</h2>
+                <p class="post-excerpt">As a web developer, the right tools can make your life easier. Here are some of the best tools you should be using in 2025...</p>
+                <a href="post3.html" class="read-more">Read More</a>
+            </div>
+
+            <!-- Add more blog posts as needed -->
+        </section>
+
+        <!-- Footer Section -->
+        <footer class="blog-footer">
+            <p>© 2025 Shashankar Ki. All rights reserved.</p>
+            <p><a href="privacy.html">Privacy Policy</a> | <a href="terms.html">Terms of Service</a></p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
