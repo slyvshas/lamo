@@ -120,3 +120,18 @@ footer a:hover {
         opacity: 1;
     }
 }
+
+.blog-button {
+    display: inline-block;
+    background-color: #1e90ff;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.blog-button:hover {
+    background-color: #4682b4;
+}
