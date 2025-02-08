@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stoic Swipe Story</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <script>
+        let currentCard = 0;
+        function nextCard() {
+            let cards = document.querySelectorAll('.card');
+            if (currentCard < cards.length - 1) {
+                cards[currentCard].classList.add('hidden');
+                currentCard++;
+                cards[currentCard].classList.remove('hidden');
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-900 text-white flex items-center justify-center h-screen">
+    <div class="w-full max-w-md p-5">
+        <div class="card bg-gray-800 p-6 rounded-lg text-center">
+            <img src="/img/post1a.jpg" alt="Happiness" class="w-32 mx-auto mb-3">
+            <h2 class="text-2xl font-bold">Want to be Happy? Learn Stoicism!</h2>
+            <p class="mt-3">The Stoics figured out how to suffer less and enjoy more. Swipe to discover 3 Stoic secrets to happiness.</p>
+            <button onclick="nextCard()" class="mt-5 bg-blue-500 px-4 py-2 rounded">Next</button>
+        </div>
+        
+        <div class="card hidden bg-gray-800 p-6 rounded-lg text-center">
+            <img src="/img/post1b.jpg" alt="Mindset" class="w-32 mx-auto mb-3">
+            <h2 class="text-xl font-bold">1. Alter Your Judgments</h2>
+            <p class="mt-3">Events aren't good or bad—your mind makes them so. Focus on what’s in your control and let go of the rest.</p>
+            <p class="mt-3 italic">“People are not disturbed by things, but by the views they take of them.” – Epictetus</p>
+            <button onclick="nextCard()" class="mt-5 bg-blue-500 px-4 py-2 rounded">Next</button>
+        </div>
+        
+        <div class="card hidden bg-gray-800 p-6 rounded-lg text-center">
+            <img src="/img/post1c.jpg" alt="Virtue" class="w-32 mx-auto mb-3">
+            <h2 class="text-xl font-bold">2. Live Virtuously</h2>
+            <p class="mt-3">Happiness isn’t about wealth or reputation. True happiness comes from wisdom, courage, justice, and moderation.</p>
+            <p class="mt-3 italic">“Waste no more time arguing about what a good man should be. Be one.” – Marcus Aurelius</p>
+            <button onclick="nextCard()" class="mt-5 bg-blue-500 px-4 py-2 rounded">Next</button>
+        </div>
+        
+        <div class="card hidden bg-gray-800 p-6 rounded-lg text-center">
+            <img src="/img/post1d.jpg" alt="Expectations" class="w-32 mx-auto mb-3">
+            <h2 class="text-xl font-bold">3. Lower Your Expectations</h2>
+            <p class="mt-3">Life owes you nothing. Accept what comes with grace, and disappointment loses its power over you.</p>
+            <p class="mt-3 italic">“Today, I shall be meeting with interference, ingratitude, and selfishness. It is due to the offenders' ignorance of what is good or evil.” – Marcus Aurelius</p>
+            <button onclick="nextCard()" class="mt-5 bg-blue-500 px-4 py-2 rounded">Next</button>
+        </div>
+        
+        <div class="card hidden bg-gray-800 p-6 rounded-lg text-center">
+            <img src="/img/post1e.jpg" alt="Stoic Thinking" class="w-32 mx-auto mb-3">
+            <h2 class="text-2xl font-bold">Ready to Be Stoic?</h2>
+            <p class="mt-3">Apply these principles daily. Train your mind, live with virtue, and embrace life’s flow.</p>
+        </div>
+    </div>
+</body>
+</html>
