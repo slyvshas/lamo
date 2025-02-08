@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Recommendations</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f5f5f5;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        .buttons {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 25px;
+            background: #007BFF;
+            color: white;
+            font-size: 16px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        button:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        .search-bar {
+            margin-bottom: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 25px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            outline: none;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .phone {
+            width: 220px;
+            height: 450px;
+            background: #000;
+            border-radius: 40px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 16px;
+            text-align: center;
+            padding: 15px;
+            position: relative;
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            overflow: hidden;
+        }
+        .phone.show {
+            transform: translateY(0);
+            opacity: 1;
+            animation: float 3s infinite ease-in-out;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .phone img {
+            width: 100%;
+            height: 100%;
+            border-radius: 25px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .phone:hover img {
+            transform: scale(1.1);
+        }
+        .phone p {
+            font-size: 14px;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 10px;
+            border-radius: 10px;
+            position: absolute;
+            bottom: 50px;
+            margin: 0;
+            transition: background 0.3s ease;
+        }
+        .phone:hover p {
+            background: rgba(0, 0, 0, 0.8);
+        }
+        .phone a {
+            background: #007BFF;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            position: absolute;
+            bottom: 15px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .phone a:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        .leonardo {
+            font-size: 18px;
+            font-weight: bold;
+            color: #007BFF;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            text-align: center;
+            position: relative;
+        }
+        .leonardo:hover {
+            color: #ff4500;
+        }
+        .leonardo:hover + .leonardo-info {
+            display: block;
+        }
+        .leonardo-info {
+            display: none;
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            width: 220px;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            font-size: 14px;
+        }
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #777;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="buttons">
+        <button onclick="filterApps('all')">All Apps</button>
+        <button onclick="filterApps('ai')">AI Apps</button>
+        <button onclick="filterApps('productivity')">Productivity Apps</button>
+        <button onclick="filterApps('self-development')">Self-Development Apps</button>
+    </div>
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Search apps..." oninput="searchApps()">
+    </div>
+    <div class="container" id="appContainer">
+        <div class="phone ai">
+            <img src="/img/leonardoai.png" alt="Leonardo AI">
+            <p class="leonardo">Leonardo AI - The best AI tool for image generation.</p>
+            <p class="leonardo-info">Leonardo AI is a cutting-edge image generation tool that harnesses the power of AI to create stunning visuals in seconds. Perfect for artists, designers, and content creators!</p>
+            <a href="https://leonardo.ai/">Try Now</a>
+        </div>
+        <div class="phone ai">
+            <img src="https://via.placeholder.com/120x180" alt="AI App 2">
+            <p>AI App 2 - Enhance your creativity with AI.</p>
+            <a href="#">Visit Website</a>
+        </div>
+        <div class="phone productivity">
+            <img src="https://via.placeholder.com/120x180" alt="Productivity App 1">
+            <p>Notion - The best productivity tool.</p>
+            <a href="#">Visit Website</a>
+        </div>
+        <div class="phone self-development">
+            <img src="https://via.placeholder.com/120x180" alt="Self-Development App 1">
+            <p>Headspace - Improve mental clarity and focus.</p>
+            <a href="#">Visit Website</a>
+        </div>
+        <!-- Add more apps here -->
+    </div>
+    <div class="footer">
+        &copy; 2023 App Recommendations. All rights reserved.
+    </div>
+    <script>
+        function filterApps(category) {
+            const apps = document.querySelectorAll('.phone');
+            apps.forEach(app => {
+                if (category === 'all' || app.classList.contains(category)) {
+                    app.style.display = 'flex';
+                    setTimeout(() => app.classList.add('show'), 50);
+                } else {
+                    app.classList.remove('show');
+                    setTimeout(() => app.style.display = 'none', 500);
+                }
+            });
+        }
+
+        function searchApps() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const apps = document.querySelectorAll('.phone');
+            apps.forEach(app => {
+                const appText = app.textContent.toLowerCase();
+                if (appText.includes(searchTerm)) {
+                    app.style.display = 'flex';
+                    setTimeout(() => app.classList.add('show'), 50);
+                } else {
+                    app.classList.remove('show');
+                    setTimeout(() => app.style.display = 'none', 500);
+                }
+            });
+        }
+
+        // Initial display of all apps
+        filterApps('all');
+    </script>
+</body>
+</html>

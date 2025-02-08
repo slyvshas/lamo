@@ -136,142 +136,164 @@ footer a:hover {
     background-color: #4682b4;
 }
 
-/* style.css */
+/* Importing Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Roboto:wght@300;400;700&display=swap');
+
 :root {
-    --primary-color: #3498db; /* Example primary color */
-    --secondary-color: #2c3e50; /* Example secondary color */
-    --light-color: #f4f4f4; /* Example light background color */
-    --dark-color: #333; /* Example dark text color */
-    --box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    --primary-color: #007BFF;
+    --secondary-color: #ff4500;
+    --background-color: #f8f9fa;
+    --text-color: #333;
+    --white: #fff;
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset & Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    font-family: 'Poppins', sans-serif; /* Modern font stack */
-    margin: 0;
-    padding: 0;
-    background-color: var(--light-color);
-    color: var(--dark-color);
-    line-height: 1.6; /* Improved readability */
+    background: var(--background-color);
+    color: var(--text-color);
+    line-height: 1.6;
 }
 
+/* Navbar */
 header {
-    background-color: #fff; /* Example header background */
-    padding: 1rem 0;
-    box-shadow: var(--box-shadow);
+    background: var(--white);
+    box-shadow: var(--shadow);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
 }
 
 nav {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px; /* Responsive container width */
-    margin: 0 auto;
+    max-width: 1200px;
+    margin: auto;
     padding: 0 20px;
 }
 
 .logo {
+    font-size: 24px;
     font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--secondary-color);
+    color: var(--primary-color);
 }
 
 nav ul {
     list-style: none;
-    margin: 0;
-    padding: 0;
     display: flex;
 }
 
-nav li {
+nav ul li {
     margin-left: 20px;
 }
 
-nav a {
+nav ul li a {
     text-decoration: none;
-    color: var(--dark-color);
-    font-weight: 500;
-    transition: color 0.3s ease; /* Smooth color transition */
+    color: var(--text-color);
+    font-weight: 600;
+    transition: color 0.3s ease;
 }
 
-nav a:hover {
+nav ul li a:hover {
     color: var(--primary-color);
 }
 
-main {
+/* Blog Container */
+.blog-container {
     display: flex;
     max-width: 1200px;
-    margin: 2rem auto;
-    padding: 0 20px;
-    gap: 2rem; /* Spacing between sections */
+    margin: 30px auto;
+    padding: 20px;
+    gap: 30px;
 }
 
+/* Blog Posts Section */
 .blog-posts {
-    flex: 2; /* Takes up more space */
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Responsive grid */
-    gap: 2rem;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
 }
 
 .blog-post {
-    background-color: #fff;
-    border-radius: 8px;
-    overflow: hidden; /* Prevents image overflow */
-    box-shadow: var(--box-shadow);
-    transition: transform 0.2s ease; /* Smooth hover effect */
+    background: var(--white);
+    padding: 20px;
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .blog-post:hover {
     transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 .post-image {
-    width: 100%;
-    height: auto;
-    display: block; /* Prevents image from creating extra space */
+    width: 150px;
+    height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
 .post-content {
-    padding: 20px;
+    flex: 1;
 }
 
 .post-title {
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
-    color: var(--secondary-color);
+    font-size: 20px;
+    color: var(--primary-color);
+    margin-bottom: 10px;
 }
 
 .post-excerpt {
-    color: var(--dark-color);
-    margin-bottom: 1.5rem;
+    font-size: 14px;
+    color: #666;
 }
 
 .read-more {
     display: inline-block;
-    padding: 0.7rem 1.5rem;
-    background-color: var(--primary-color);
-    color: #fff;
+    margin-top: 10px;
     text-decoration: none;
-    border-radius: 5px;
     font-weight: bold;
-    transition: background-color 0.3s ease;
+    color: var(--secondary-color);
+    transition: color 0.3s ease;
 }
 
 .read-more:hover {
-    background-color: darken(var(--primary-color), 10%);
+    color: var(--primary-color);
 }
 
+/* Sidebar */
 .sidebar {
-    flex: 1; /* Takes up less space */
-    background-color: #fff;
+    flex: 1;
+    background: var(--white);
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: var(--box-shadow);
+    box-shadow: var(--shadow);
+    border-radius: 10px;
+    height: fit-content;
 }
 
 .sidebar h3 {
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
-    color: var(--secondary-color);
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+.sidebar p {
+    font-size: 14px;
+    color: #666;
 }
 
 .sidebar ul {
@@ -279,105 +301,56 @@ main {
     padding: 0;
 }
 
-.sidebar li {
-    margin-bottom: 0.8rem;
+.sidebar ul li {
+    margin-bottom: 10px;
 }
 
-.sidebar a {
+.sidebar ul li a {
     text-decoration: none;
-    color: var(--primary-color);
+    color: var(--text-color);
     transition: color 0.3s ease;
 }
 
-.sidebar a:hover {
-    color: darken(var(--primary-color), 10%);
+.sidebar ul li a:hover {
+    color: var(--primary-color);
 }
 
-/* style.css (continued) */
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background: var(--white);
+    box-shadow: var(--shadow);
+    margin-top: 30px;
+}
+
+footer p {
+    margin-bottom: 10px;
+}
+
+footer a {
+    text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;
+}
 
 footer a:hover {
-    color: darken(var(--primary-color), 10%);
+    color: var(--secondary-color);
 }
 
 /* Responsive Design */
-@media (max-width: 768px) {
-    main {
-        flex-direction: column; /* Stack sections vertically */
+@media (max-width: 900px) {
+    .blog-container {
+        flex-direction: column;
     }
 
-    .blog-posts {
-        grid-template-columns: 1fr; /* Single column on smaller screens */
+    .blog-post {
+        flex-direction: column;
+        text-align: center;
     }
 
-    nav {
-        flex-direction: column; /* Stack navigation vertically */
-        align-items: flex-start; /* Align items to the left */
-    }
-
-    nav ul {
-        flex-direction: column; /* Stack list items vertically */
-        margin-top: 1rem; /* Add some top margin to the list */
-    }
-
-    nav li {
-        margin: 0.5rem 0; /* Add margin to list items */
+    .post-image {
+        width: 100%;
+        height: auto;
     }
 }
-
-
-/* Utility Classes (Optional - for reusability) */
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
-
-.section-heading {
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: var(--secondary-color);
-}
-
-.btn { /* Style for buttons (can be reused) */
-    display: inline-block;
-    padding: 0.8rem 1.8rem;
-    background-color: var(--primary-color);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    transition: background-color 0.3s ease;
-}
-
-.btn:hover {
-    background-color: darken(var(--primary-color), 10%);
-}
-
-/* Example Featured Post Styling (add to .blog-posts or create a separate .featured-post section in HTML) */
-.featured-post {
-    grid-column: 1 / -1; /* Make it span across all columns */
-    background-color: #fff;
-    padding: 2rem;
-    border-radius: 8px;
-    box-shadow: var(--box-shadow);
-    margin-bottom: 2rem; /* Add some margin below */
-}
-
-.featured-post img {
-    width: 100%;
-    height: auto;
-    display: block;
-    margin-bottom: 1rem;
-}
-
-.featured-post h2 {
-    font-size: 2.2rem;
-    margin-bottom: 1rem;
-    color: var(--secondary-color);
-}
-
-.featured-post p {
-    color: var(--dark-color);
-}
-
-/* Add more specific styles as needed */
