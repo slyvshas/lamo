@@ -5,55 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>📖 Improve Your Storytelling Skills</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
-    <script>
-        let currentCard = 0;
-        function showCard(index) {
-            let cards = document.querySelectorAll('.card');
-            let dots = document.querySelectorAll('.dot');
-            if (index >= 0 && index < cards.length) {
-                cards[currentCard].classList.add('hidden');
-                dots[currentCard].classList.remove('bg-blue-500');
-                dots[currentCard].classList.add('bg-gray-500');
-                currentCard = index;
-                cards[currentCard].classList.remove('hidden');
-                dots[currentCard].classList.add('bg-blue-500');
-                dots[currentCard].classList.remove('bg-gray-500');
-            }
+    <style>
+        .card {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
-        function nextCard() {
-            showCard(currentCard + 1);
+        .card.active {
+            opacity: 1;
+            transform: translateY(0);
         }
-        function prevCard() {
-            showCard(currentCard - 1);
+        .dot {
+            transition: background-color 0.3s ease;
         }
-    </script>
+    </style>
 </head>
-<body class="bg-gray-900 text-white flex items-center justify-center h-screen flex-col">
-    <div class="w-full max-w-md p-5">
-        <div class="card bg-gray-800 p-6 rounded-lg text-center transition-transform transform scale-105">
-            <h2 class="text-2xl font-bold">🎬 Introduction</h2>
-            <p class="mt-3">Start with a hook 🎣 to grab attention and keep storytelling simple by focusing on key elements.</p>
-            <button onclick="nextCard()" class="mt-5 bg-blue-500 px-4 py-2 rounded transition-transform transform hover:scale-110">Next 👉</button>
+<body class="bg-gray-900 text-white flex items-center justify-center min-h-screen flex-col p-4">
+    <div class="w-full max-w-2xl p-5">
+        <!-- Card Container -->
+        <div id="card-container" class="relative">
+            <!-- Cards will be dynamically injected here -->
         </div>
-        
-        <div class="card hidden bg-gray-800 p-6 rounded-lg text-center transition-transform transform scale-105">
-            <h2 class="text-xl font-bold">📖 Example Story</h2>
-            <p class="mt-3">📝 1. Set the scene – Where are you? What’s happening?<br>💬 2. Introduce dialogue – What are the exact words exchanged?<br>🎭 3. Show, don’t tell – Avoid summarizing; instead, zoom into the moment.<br>❤️ 4. Use emotions and actions – Describe reactions and feelings.</p>
-            <button onclick="prevCard()" class="mt-5 bg-gray-500 px-4 py-2 rounded transition-transform transform hover:scale-110">👈 Previous</button>
-            <button onclick="nextCard()" class="mt-5 bg-blue-500 px-4 py-2 rounded transition-transform transform hover:scale-110">Next 👉</button>
+
+        <!-- Navigation Dots -->
+        <div class="flex justify-center mt-5 space-x-2" id="dot-container">
+            <!-- Dots will be dynamically injected here -->
         </div>
-        
-        <div class="flex justify-center mt-5 space-x-2">
-            <span class="dot w-3 h-3 bg-blue-500 rounded-full"></span>
-            <span class="dot w-3 h-3 bg-gray-500 rounded-full"></span>
-            <span class="dot w-3 h-3 bg-gray-500 rounded-full"></span>
-            <span class="dot w-3 h-3 bg-gray-500 rounded-full"></span>
-            <span class="dot w-3 h-3 bg-gray-500 rounded-full"></span>
-            <span class="dot w-3 h-3 bg-gray-500 rounded-full"></span>
-            <span class="dot w-3 h-3 bg-gray-500 rounded-full"></span>
-            <span class="dot w-3 h-3 bg-gray-500 rounded-full"></span>
-            <span class="dot w-3 h-3 bg-gray-500 rounded-full"></span>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between mt-5">
+            <button onclick="prevCard()" class="bg-gray-700 px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Previous Card">👈 Previous</button>
+            <button onclick="nextCard()" class="bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500" aria-label="Next Card">Next 👉</button>
         </div>
     </div>
+
+    <script>
+       const cards = [
+    {
+        title: "🎬 Introduction",
+        content: "Start with a hook 🎣 to grab attention and keep storytelling simple by focusing on key elements."
+    },
+    {
+        title: "📖 Example Story",
+        content: "📝 1. Set the scene – Where are you? What’s happening?<br>💬 2. Introduce dialogue – What are the exact words exchanged?<br>🎭 3. Show, don’t tell – Avoid summarizing; instead, zoom into the moment.<br>❤️ 4. Use emotions and actions – Describe reactions and feelings."
+    },
+    {
+        title: "🎨 Visual Storytelling",
+        content: "Use vivid imagery and sensory details to paint a picture in the reader's mind."
+    },
+    {
+        title: "📚 Story Structure",
+        content: "Follow a clear structure: Beginning (setup), Middle (conflict), End (resolution)."
+    },
+    {
+        title: "🎤 Public Speaking Tips",
+        content: "Practice your story aloud, use pauses effectively, and maintain eye contact."
+    },
+    {
+        title: "🌟 Pro Tip",
+        content: "Always end with a memorable takeaway or call to action."
+    },
+    {
+        title: "🔥 Conflict & Resolution",
+        content: "Every great story needs tension. Show the challenges or obstacles your character faces, and how they overcome them to provide a satisfying resolution."
+    },
+    {
+        title: "💡 Relatable Characters",
+        content: "Create characters your audience can relate to. Show their desires, flaws, and growth throughout the story."
+    },
+    {
+        title: "⏳ Pacing",
+        content: "Keep the pacing varied. Slow down during emotional moments and speed up during action or tension to keep the audience engaged."
+    },
+    {
+        title: "📅 Time & Place",
+        content: "Time and place can set the tone of your story. Think about how specific times (e.g., dusk, morning) and locations (e.g., city, beach) affect the mood."
+    },
+    {
+        title: "🧠 Show, Don’t Tell",
+        content: "Instead of telling your audience how a character feels, show it through their actions, body language, and dialogue. Let them experience the emotion."
+    },
+    {
+        title: "⚡ Energy & Passion",
+        content: "Deliver your story with energy and passion. A story told with enthusiasm will naturally engage your audience."
+    }
+];
+
+        let currentCard = 0;
+
+        // Render Cards and Dots
+        const cardContainer = document.getElementById('card-container');
+        const dotContainer = document.getElementById('dot-container');
+
+        cards.forEach((card, index) => {
+            // Create Card
+            const cardElement = document.createElement('div');
+            cardElement.className = `card bg-gray-800 p-6 rounded-lg text-center ${index === 0 ? 'active' : 'hidden'}`;
+            cardElement.innerHTML = `
+                <h2 class="text-2xl font-bold">${card.title}</h2>
+                <p class="mt-3">${card.content}</p>
+            `;
+            cardContainer.appendChild(cardElement);
+
+            // Create Dot
+            const dotElement = document.createElement('span');
+            dotElement.className = `dot w-3 h-3 rounded-full cursor-pointer ${index === 0 ? 'bg-blue-500' : 'bg-gray-500'}`;
+            dotElement.addEventListener('click', () => showCard(index));
+            dotElement.setAttribute('aria-label', `Go to card ${index + 1}`);
+            dotContainer.appendChild(dotElement);
+        });
+
+        // Show Card Function
+        function showCard(index) {
+            if (index < 0 || index >= cards.length) return;
+
+            const cardsElements = document.querySelectorAll('.card');
+            const dots = document.querySelectorAll('.dot');
+
+            // Hide Current Card
+            cardsElements[currentCard].classList.remove('active');
+            cardsElements[currentCard].classList.add('hidden');
+            dots[currentCard].classList.remove('bg-blue-500');
+            dots[currentCard].classList.add('bg-gray-500');
+
+            // Show New Card
+            currentCard = index;
+            cardsElements[currentCard].classList.remove('hidden');
+            cardsElements[currentCard].classList.add('active');
+            dots[currentCard].classList.remove('bg-gray-500');
+            dots[currentCard].classList.add('bg-blue-500');
+        }
+
+        // Navigation Functions
+        function nextCard() {
+            const nextIndex = (currentCard + 1) % cards.length;
+            showCard(nextIndex);
+        }
+
+        function prevCard() {
+            const prevIndex = (currentCard - 1 + cards.length) % cards.length;
+            showCard(prevIndex);
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight') nextCard();
+            if (e.key === 'ArrowLeft') prevCard();
+        });
+    </script>
 </body>
 </html>
