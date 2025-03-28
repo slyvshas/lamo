@@ -1,0 +1,137 @@
+/* styles.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', Arial, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #f9fbfd;
+    color: #2c3e50;
+    padding: 20px;
+    line-height: 1.8;
+    font-size: 1rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+header p {
+    font-size: 1.3rem;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+}
+
+#search-bar {
+    width: 100%;
+    max-width: 500px;
+    padding: 14px;
+    font-size: 1rem;
+    border: 1px solid #bdc3c7;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#search-bar:focus {
+    border-color: #2980b9;
+    box-shadow: 0 0 8px rgba(41, 128, 185, 0.5);
+}
+
+main {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.card {
+    background-color: #ffffff;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card img {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 20px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.card h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.card .category, .card .price {
+    display: inline-block;
+    font-size: 1rem;
+    color: #95a5a6;
+    margin-right: 15px;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 1.1rem;
+    color: #34495e;
+    margin-bottom: 25px;
+}
+
+.card .btn {
+    display: inline-block;
+    background-color: #3498db;
+    color: #ffffff;
+    padding: 14px 30px;
+    text-decoration: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.card .btn:hover {
+    background-color: #2980b9;
+    transform: scale(1.08);
+}
+
+footer {
+    text-align: center;
+    margin-top: 60px;
+    font-size: 1rem;
+    color: #95a5a6;
+}
+
+footer a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
