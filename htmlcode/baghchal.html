@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bagh Chal</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <div id="header">
+        <h1>Bagh Chal</h1>
+        <div id="score-container">
+            <div id="turn-indicator">
+                <span id="turn-icon">🐐</span>
+                <span id="turn-text">Goat's Turn</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+<div id="game-over-modal" style="display: none;">
+    <div class="modal-content">
+        <h2 id="winner-message"></h2>
+        <button onclick="resetGame()">Play Again</button>
+    </div>
+</div>
+
+<!-- Add this inside the header section -->
+<div id="bot-toggle">
+    <button id="bot-mode-btn">Play Against Bot</button>
+</div>
+    <!-- Game Wrapper -->
+    <div id="game-wrapper">
+        <!-- Captured Goats (Left) -->
+        <div id="captured-goats-left"></div>
+
+        <!-- Game Board -->
+        <div id="game-container">
+            <div id="game-board"></div>
+        </div>
+
+      <!-- Game Rules Button (Aligned Right) -->
+      <div id="game-rules-container">
+        <button id="game-rules-btn" onclick="showGameRules()">Game Rules</button>
+    </div>
+</div>
+
+<!-- Game Rules Modal (Popup) -->
+<div id="game-rules-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeGameRules()">&times;</span>
+        <h2>📜 Bagh Chal Rules</h2>
+        <p><strong>Players:</strong> 2 (One controls the Tigers 🦁, the other controls the Goats 🐐)</p>
+        <p><strong>Objective:</strong></p>
+        <ul>
+            <li><strong>Goats:</strong> Trap all 4 Tigers so they cannot move.</li>
+            <li><strong>Tigers:</strong> Capture at least 5 Goats by jumping over them.</li>
+        </ul>
+        <p><strong>Game Setup:</strong></p>
+        <ul>
+            <li>The board consists of 25 intersection points connected by lines.</li>
+            <li>There are 4 Tigers and 20 Goats.</li>
+            <li>All Tigers start on the board, while Goats are placed during gameplay.</li>
+        </ul>
+        <p><strong>Game Phases:</strong></p>
+        <ol>
+            <li><strong>Phase 1: Placing Goats</strong>
+                <ul>
+                    <li>Players take turns. The Goat player places one Goat on any empty intersection point.</li>
+                    <li>The Tiger player can move a Tiger to an adjacent point or capture a Goat if possible.</li>
+                    <li>This phase continues until all 20 Goats are placed on the board.</li>
+                </ul>
+            </li>
+            <li><strong>Phase 2: Moving Pieces</strong>
+                <ul>
+                    <li>Goats can move to an adjacent empty point along the lines.</li>
+                    <li>Tigers can move to an adjacent empty point or capture a Goat by jumping over it to an empty point.</li>
+                    <li>Captures are only valid if the point behind the Goat is empty.</li>
+                </ul>
+            </li>
+        </ol>
+        <p><strong>Winning Conditions:</strong></p>
+        <ul>
+            <li><strong>Goats win:</strong> If all 4 Tigers are trapped and cannot make a valid move.</li>
+            <li><strong>Tigers win:</strong> If they capture at least 5 Goats.</li>
+        </ul>
+        <p>🎯 **Strategize carefully to outsmart your opponent and achieve your objective!** 🏆</p>
+    </div>
+</div>
+
+    <!-- Audio for Sound Effects -->
+    <audio id="move-sound" src="move.mp3"></audio>
+    <audio id="tigermove-sound" src="tigermove.mp3"></audio>
+    <audio id="capture-sound" src="capture.mp3"></audio>
+    <audio id="win-sound" src="win.mp3"></audio>
+
+    <!-- Game Status -->
+    <div id="status" class="game-status">Phase 1: Place a Goat 🐐</div>
+
+    <script src="game.js"></script>
+</body>
+</html>

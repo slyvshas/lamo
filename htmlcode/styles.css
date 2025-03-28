@@ -1,0 +1,417 @@
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    height: 100vh;
+}
+
+h1 {
+    color: #333;
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Section */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    padding: 15px 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+/* Score Container */
+#score-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#turn-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+#turn-icon {
+    font-size: 1.5rem;
+}
+
+/* Game Wrapper */
+#game-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* Captured Goats (Left) */
+#captured-goats-left {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1);
+    margin-right: 20px; /* Adds space between the box and the game board */
+}
+
+#captured-goats-left .goat {
+    width: 40px;
+    height: 40px;
+    background-image: url('goat.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.5;
+}
+
+/* Game Container */
+#game-container {
+    width: 500px;
+    height: 500px;
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    border-radius: 25px;
+    box-shadow: 
+        20px 20px 40px rgba(0, 0, 0, 0.25), 
+        -20px -20px 40px rgba(255, 255, 255, 0.9);
+    overflow: hidden;
+    position: relative;
+    border: 10px solid #ccc;
+    transform: perspective(1500px) rotateX(20deg) rotateY(20deg);
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+}
+#game-container:hover {
+    transform: perspective(1500px) rotateX(30deg) rotateY(0deg) scale(1.1);
+    box-shadow: 
+        25px 25px 50px rgba(0, 0, 0, 0.3), 
+        -25px -25px 50px rgba(255, 255, 255, 1);
+}
+
+
+        /* Styles for the How to Play popup */
+        
+#how-to-play-modal {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.7);
+display: flex;
+align-items: center;
+justify-content: center;
+z-index: 1000;
+}
+.modal-content {
+background: white;
+padding: 20px;
+border-radius: 10px;
+max-width: 400px;
+text-align: center;
+position: relative;
+}
+.close-btn {
+position: absolute;
+top: 10px;
+right: 15px;
+cursor: pointer;
+font-size: 20px;
+font-weight: bold;
+}
+        
+#game-container:active {
+    transform: perspective(1500px) rotateX(15deg) rotateY(0deg) scale(1);
+    box-shadow: 
+        15px 15px 30px rgba(0, 0, 0, 0.2), 
+        -15px -15px 30px rgba(255, 255, 255, 0.8);
+}
+
+
+/* Game Board */
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 2px;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
+}
+
+.point {
+    width: 100%;
+    height: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    border-radius: 5px;
+    position: relative;
+    z-index: 2;
+}
+
+.point:hover {
+    background-color: #e0e0e0;
+    transform: scale(1.05);
+}
+
+
+.tiger, .goat {
+    width: 80%;
+    height: 80%;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: opacity 0.2s ease;
+    position: relative;
+    z-index: 3;
+}
+
+.tiger {
+    background-image: url('tiger.png');
+}
+
+.goat {
+    background-image: url('goat.png');
+}
+
+.selected {
+    outline: 3px solid #007bff;
+    outline-offset: -3px;
+    box-sizing: border-box;
+}
+
+/* Game Status */
+.game-status {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(145deg, #ffffff, #e6e6e6);
+    padding: 12px 20px;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.game-status:hover {
+    background-color: #f0f0f0;
+    transform: translateX(-50%) scale(1.05);
+}
+
+/* Game Rules Modal Styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6); /* Dark transparent background */
+}
+
+.modal-content {
+    background-color: #e0d2d2;
+    margin: 15% auto;
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    text-align: center;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #555;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+/* Ensure the modal covers the entire viewport */
+#game-rules-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%; /* Adjust width for smaller screens */
+    max-width: 600px;
+    max-height: 80vh; /* Limits height so it doesn't go off-screen */
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-y: auto; /* Enables scrolling if content overflows */
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+    display: none;
+    z-index: 1000;
+}
+
+/* Make sure the modal content is scrollable */
+#game-rules-modal .modal-content {
+    max-height: 70vh; /* Ensure content fits within modal */
+    overflow-y: auto; /* Enable scrolling */
+    padding: 15px;
+}
+
+/* Prevent body scrolling when modal is open */
+body.modal-open {
+    overflow: hidden;
+}
+
+/* Game Rules Button (Floating Bottom Right) */
+#game-rules-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* Improved Game Rules Button */
+#game-rules-btn {
+    background-color: #ffcc00;
+    color: #333;
+    font-size: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 50%;
+    width: 65px;
+    height: 65px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+/* Hover & Active Effects */
+#game-rules-btn:hover {
+    background-color: #ffaa00;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+#game-rules-btn:active {
+    transform: scale(0.95);
+}
+
+/* Make the modal close button more visible */
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #ff0000;
+    transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+    color: #cc0000;
+}
+
+
+#game-over-modal button:hover {
+    background: #0056b3;
+}
+
+/* Center the game-over modal properly */
+#game-over-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8); /* Dark transparent background */
+    padding: 20px;
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    display: none; /* Hidden until game over */
+    z-index: 1000; /* Ensure it stays above everything */
+}
+
+/* Style the modal content */
+#game-over-modal .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+    text-align: center;
+}
+
+
+/* Bot Toggle Button */
+#bot-toggle {
+    margin-left: 20px;
+}
+
+#bot-mode-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background 0.3s ease;
+}
+
+#bot-mode-btn:hover {
+    background-color: #45a049;
+}
+
+/* Improve the "Play Again" button */
+#game-over-modal button {
+    background-color: #ff4d4d;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    margin-top: 15px; /* Space below the text */
+}
+
+#game-over-modal button:hover {
+    background-color: #e60000;
+    transform: scale(1.1);
+}
+
