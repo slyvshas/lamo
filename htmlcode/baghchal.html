@@ -50,38 +50,87 @@
         </div>
     </div>
 
-    <!-- Header Section -->
-    <div id="header">
-        <h1>Bagh Chal</h1>
+    <!-- Game Wrapper -->
+    <div id="game-wrapper">
+        <!-- Add audio elements -->
+        <audio id="move-sound" src="move.mp3"></audio>
+        <audio id="capture-sound" src="capture.mp3"></audio>
+        <audio id="tigermove-sound" src="tigermove.mp3"></audio>
         
-        <!-- Game Controls -->
-        <div id="game-controls">
-            <button id="pause-btn" onclick="togglePause()">
-                <span>⏸️</span> Pause
-            </button>
-            <button id="undo-btn" onclick="undoMove()">
-                <span>↩️</span> Undo
-            </button>
+        <!-- Game Board Section -->
+        <div id="board-section">
+            <!-- Captured Goats (Left) -->
+            <div id="captured-goats-left"></div>
+
+            <!-- Game Board -->
+            <div id="game-container">
+                <div id="game-board"></div>
+            </div>
+
+            <!-- Game Rules Container (with Turn Indicator) -->
+            <div id="game-rules-container">
+                <div id="turn-indicator">
+                    <span id="turn-icon">🐐</span>
+                    <span id="turn-text">Goat's Turn</span>
+                </div>
+                <button id="game-rules-btn" onclick="showGameRules()">Rules</button>
+            </div>
         </div>
 
-        <!-- Game Status -->
-        <div id="game-status-container">
-            <div id="turn-indicator">
-                <span id="turn-icon">🐐</span>
-                <span id="turn-text">Goat's Turn</span>
-            </div>
+        <!-- Header Section -->
+        <div id="header">
+            <h1>Bagh Chal</h1>
             
-            <div id="game-stats">
-                <div class="timer-display">0:00</div>
-                <div class="stats-container">
-                    <div class="stat-item">
-                        <span class="stat-label">Games:</span>
-                        <span class="stat-value" id="games-played">0</span>
+            <!-- Game Controls -->
+            <div id="game-controls">
+                <button id="pause-btn" onclick="togglePause()">
+                    <span>⏸️</span> Pause
+                </button>
+                <button id="undo-btn" onclick="undoMove()">
+                    <span>↩️</span> Undo
+                </button>
+                <button id="bot-mode-btn" onclick="toggleBotMode()">
+                    <span>🤖</span> Switch to Bot Mode
+                </button>
+                <div id="difficulty-selector" style="display: none;">
+                    <select id="difficulty-level" onchange="setDifficulty()">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Game Status Container (without Turn Indicator) -->
+            <div id="game-status-container">
+                <div id="game-stats">
+                    <div class="timer-display">0:00</div>
+                    <div class="stats-container">
+                        <div class="stat-item">
+                            <span class="stat-label">Games:</span>
+                            <span class="stat-value" id="games-played">0</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Best:</span>
+                            <span class="stat-value" id="best-time">-</span>
+                        </div>
                     </div>
-                    <div class="stat-item">
-                        <span class="stat-label">Best:</span>
-                        <span class="stat-value" id="best-time">-</span>
-                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bot Controls (Below Board) -->
+        <div id="game-controls-right">
+            <div class="bot-controls">
+                <button id="bot-mode-btn" onclick="toggleBotMode()">
+                    <span>🤖</span> Switch to Human vs Bot
+                </button>
+                <div id="difficulty-selector" style="display: none;">
+                    <select id="difficulty-level" onchange="setDifficulty()">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
                 </div>
             </div>
         </div>
@@ -116,107 +165,86 @@
     </div>
 
     <!-- Game Over Modal -->
-<div id="game-over-modal" style="display: none;">
-    <div class="modal-content">
-        <h2 id="winner-message"></h2>
-        <button onclick="resetGame()">Play Again</button>
-    </div>
-</div>
-
-    <!-- Game Wrapper -->
-    <div id="game-wrapper">
-        <!-- Bot Controls (Above Board) -->
-        <div id="game-controls-right">
-            <div class="bot-controls">
-                <button id="bot-mode-btn" onclick="toggleBotMode()">
-                    <span>🤖</span> Switch to Human vs Bot
-                </button>
-                <div id="difficulty-selector" style="display: none;">
-                    <select id="difficulty-level" onchange="setDifficulty()">
-                        <option value="easy">Easy</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="hard">Hard</option>
-                    </select>
+    <div id="game-over-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeGameOver()">&times;</span>
+            <div id="winner-message">
+                <h2>Game Over!</h2>
+                <p>Winner will be displayed here</p>
+            </div>
+            <div id="game-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Games Played:</span>
+                    <span class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Tiger Wins:</span>
+                    <span class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Goat Wins:</span>
+                    <span class="stat-value">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Best Time:</span>
+                    <span class="stat-value">-</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Current Time:</span>
+                    <span class="stat-value">-</span>
                 </div>
             </div>
+            <button id="play-again-btn">Play Again</button>
         </div>
+    </div>
 
-        <!-- Game Board Section -->
-        <div id="board-section">
-            <!-- Captured Goats (Left) -->
-            <div id="captured-goats-left"></div>
-
-            <!-- Game Board -->
-            <div id="game-container">
-                <div id="game-board"></div>
+    <!-- Game Rules Modal (Popup) -->
+    <div id="game-rules-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeGameRules()">&times;</span>
+            <h2>📜 How to Play Bagh Chal</h2>
+            
+            <div class="rules-section">
+                <h3>🎯 Objective</h3>
+                <ul>
+                    <li><strong>Tigers 🐅:</strong> Capture 5 goats to win</li>
+                    <li><strong>Goats 🐐:</strong> Trap all tigers so they can't move</li>
+                </ul>
             </div>
 
-            <!-- Game Rules Button -->
-            <button id="game-rules-btn" onclick="showGameRules()">Game Rules</button>
+            <div class="rules-section">
+                <h3>🎮 Game Setup</h3>
+                <ul>
+                    <li>4 Tigers start at corners</li>
+                    <li>20 Goats to be placed during play</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>⚡ How to Play</h3>
+                <h4>Phase 1: Placing Goats</h4>
+                <ul>
+                    <li>Goat player places one goat per turn</li>
+                    <li>Tiger player can move or capture</li>
+                </ul>
+
+                <h4>Phase 2: Moving Pieces</h4>
+                <ul>
+                    <li>Goats: Move to adjacent empty point</li>
+                    <li>Tigers: Move to adjacent point or jump over goats to capture</li>
+                </ul>
+            </div>
+
+            <div class="rules-section">
+                <h3>💡 Tips</h3>
+                <ul>
+                    <li>Goats: Try to surround tigers</li>
+                    <li>Tigers: Work together to capture goats</li>
+                    <li>Watch out for trapped positions!</li>
+                </ul>
+            </div>
         </div>
     </div>
-
-<!-- Game Rules Modal (Popup) -->
-<div id="game-rules-modal" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeGameRules()">&times;</span>
-        <h2>📜 How to Play Bagh Chal</h2>
-        
-        <div class="rules-section">
-            <h3>🎯 Objective</h3>
-            <ul>
-                <li><strong>Tigers 🐅:</strong> Capture 5 goats to win</li>
-                <li><strong>Goats 🐐:</strong> Trap all tigers so they can't move</li>
-            </ul>
-        </div>
-
-        <div class="rules-section">
-            <h3>🎮 Game Setup</h3>
-            <ul>
-                <li>4 Tigers start at corners</li>
-                <li>20 Goats to be placed during play</li>
-            </ul>
-        </div>
-
-        <div class="rules-section">
-            <h3>⚡ How to Play</h3>
-            <h4>Phase 1: Placing Goats</h4>
-            <ul>
-                <li>Goat player places one goat per turn</li>
-                <li>Tiger player can move or capture</li>
-            </ul>
-
-            <h4>Phase 2: Moving Pieces</h4>
-            <ul>
-                <li>Goats: Move to adjacent empty point</li>
-                <li>Tigers: Move to adjacent point or jump over goats to capture</li>
-            </ul>
-        </div>
-
-        <div class="rules-section">
-            <h3>💡 Tips</h3>
-            <ul>
-                <li>Goats: Try to surround tigers</li>
-                <li>Tigers: Work together to capture goats</li>
-                <li>Watch out for trapped positions!</li>
-            </ul>
-        </div>
-    </div>
-</div>
-
-    <!-- Audio for Sound Effects -->
-    <audio id="move-sound" preload="auto">
-        <source src="move.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="tigermove-sound" preload="auto">
-        <source src="tigermove.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="capture-sound" preload="auto">
-        <source src="capture.mp3" type="audio/mpeg">
-    </audio>
-    <audio id="win-sound" preload="auto">
-        <source src="win.mp3" type="audio/mpeg">
-    </audio>
 
     <!-- Game Status -->
     <div id="status" class="game-status">

@@ -10,7 +10,7 @@ let isPaused = false; // Track if game is paused
 let moveHistory = []; // Track move history
 let isBotEnabled = false; // Track if bot mode is enabled
 let botDifficulty = 'medium'; // Default difficulty
-let soundEnabled = true;
+let soundEnabled = true; // Enable sound by default
 let gameStats = {
     gamesPlayed: 0,
     wins: { tiger: 0, goat: 0 },
@@ -90,10 +90,56 @@ function renderBoard() {
     updateStatus();
 }
 
-// Handle click events
+// Add notification system
+function showNotification(message, duration = 7000) {
+    const notification = document.createElement('div');
+    notification.className = 'game-notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    // Trigger reflow
+    notification.offsetHeight;
+
+    // Add show class for animation
+    notification.classList.add('show');
+
+    // Remove notification after duration
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, duration);
+}
+
+// Function to play sound
+function playSound(type) {
+    if (!soundEnabled) return;
+    
+    let soundElement;
+    switch(type) {
+        case 'move':
+            soundElement = moveSound;
+            break;
+        case 'capture':
+            soundElement = captureSound;
+            break;
+        case 'tigermove':
+            soundElement = tigerSound;
+            break;
+    }
+    
+    if (soundElement) {
+        soundElement.currentTime = 0; // Reset sound to start
+        soundElement.play().catch(error => {
+            console.log('Sound playback failed:', error);
+        });
+    }
+}
+
+// Update handleClick function
 function handleClick(event) {
     if (isPaused) return; // Don't process clicks if game is paused
     if (isBotEnabled && turn === "tiger") return; // Prevent player from moving Tigers in bot mode
+    if (checkWinConditions()) return; // Don't process clicks if game is over
 
     const row = parseInt(event.target.dataset.row);
     const col = parseInt(event.target.dataset.col);
@@ -102,9 +148,14 @@ function handleClick(event) {
         board[row][col] = "goat";
         goatsToPlace--;
         turn = "tiger";
-        moveSound.play();
         moveCount++;
         moveHistory.push({ type: 'place', piece: 'goat', row, col });
+
+        // Show notification when last goat is placed
+        if (goatsToPlace === 0) {
+            showNotification("All goats placed! Now you can move existing goats by tapping them.");
+            phase = 2;
+        }
     } else if (board[row][col] === turn && !selectedPiece) {
         selectedPiece = [row, col];
         highlightValidMoves(row, col);
@@ -120,7 +171,6 @@ function handleClick(event) {
             });
             selectedPiece = null;
             turn = turn === "tiger" ? "goat" : "tiger";
-            if (phase === 1 && goatsToPlace === 0) phase = 2;
             checkWinConditions();
         }
     }
@@ -128,7 +178,7 @@ function handleClick(event) {
     updateGameStats();
 
     // If bot is enabled and it's the bot's turn, make a move after a delay
-    if (isBotEnabled && turn === "tiger") {
+    if (isBotEnabled && turn === "tiger" && !checkWinConditions()) {
         setTimeout(botMove, 1000);
     }
 }
@@ -230,7 +280,7 @@ function botMove() {
                     selectedMove = possibleMoves[Math.floor(Math.random() * Math.max(1, Math.floor(possibleMoves.length * 0.9)))];
                     break;
                 case 'medium':
-                    selectedMove = possibleMoves[Math.floor(Math.random() * Math.max(1, Math.floor(possibleMoves.length * 0.6)))];
+                    selectedMove = possibleMoves[Math.floor(Math.random() * Math.max(1, Math.floor(possibleMoves.length * 0.1)))];
                     break;
                 case 'hard':
                     selectedMove = possibleMoves[0]; // Always pick the best move
@@ -279,44 +329,63 @@ function isTigerTrapped(row, col) {
     });
 }
 
-// Move tiger function
+// Update moveTiger function
 function moveTiger(fromRow, fromCol, toRow, toCol) {
-    const { valid, isJump } = isValidTigerMove(fromRow, fromCol, toRow, toCol);
-    if (!valid) return false;
-    board[toRow][toCol] = "tiger";
-    board[fromRow][fromCol] = null;
-
-    if (isJump) {
-        board[(fromRow + toRow) / 2][(fromCol + toCol) / 2] = null;
-        addCapturedGoat(); // This function already increments goatsCaptured
-        captureSound.play(); // Play capture sound 
-    } else {
-        tigerSound.play(); // Play move sound
+    const moveResult = isValidTigerMove(fromRow, fromCol, toRow, toCol);
+    if (moveResult.valid) {
+        board[fromRow][fromCol] = null;
+        board[toRow][toCol] = "tiger";
+        
+        // Handle capture during jump
+        if (moveResult.isJump) {
+            const captureRow = (fromRow + toRow) / 2;
+            const captureCol = (fromCol + toCol) / 2;
+            board[captureRow][captureCol] = null; // Remove the captured goat
+            goatsCaptured++;
+            playSound('capture');
+            
+            // Add captured goat to the UI
+            addCapturedGoat();
+        } else {
+            playSound('tigermove');
+        }
+        return true;
     }
-    return true;
-} 
+    return false;
+}
 
-// Move a goat
+// Update moveGoat function
 function moveGoat(fromRow, fromCol, toRow, toCol) {
-    if (!isValidGoatMove(fromRow, fromCol, toRow, toCol)) return false;
-    board[fromRow][fromCol] = null;
-    board[toRow][toCol] = "goat";
-    return true;
+    if (isValidGoatMove(fromRow, fromCol, toRow, toCol)) {
+        board[fromRow][fromCol] = null;
+        board[toRow][toCol] = "goat";
+        playSound('move');
+        return true;
+    }
+    return false;
 }
 
 // Check if tiger move is valid
 function isValidTigerMove(fromRow, fromCol, toRow, toCol) {
     if (board[toRow]?.[toCol]) return { valid: false, isJump: false };
+    
+    // Check regular moves
     for (let [dr, dc] of connections) {
-        if (fromRow + dr === toRow && fromCol + dc === toCol) return { valid: true, isJump: false };
+        if (fromRow + dr === toRow && fromCol + dc === toCol) {
+            return { valid: true, isJump: false };
+        }
     }
+    
+    // Check jump moves
     for (let [dr, dc] of jumpConnections) {
         const midRow = fromRow + dr / 2;
         const midCol = fromCol + dc / 2;
-        if (fromRow + dr === toRow && fromCol + dc === toCol && board[midRow]?.[midCol] === "goat") {
+        if (fromRow + dr === toRow && fromCol + dc === toCol && 
+            board[midRow]?.[midCol] === "goat") {
             return { valid: true, isJump: true };
         }
     }
+    
     return { valid: false, isJump: false };
 }
 
@@ -363,30 +432,35 @@ function addCapturedGoat() {
 
 // Check win conditions
 function checkWinConditions() {
-    if (goatsCaptured >= 5) {
-        showGameOver("tiger"); // 🐯 Tigers win
-        return;
+    // Tigers win by capturing exactly 5 goats
+    if (goatsCaptured === 5) {
+        playSound('win');
+        showGameOver("Tigers Win!", "Captured 5 goats!");
+        return true;
     }
 
-    const tigerPositions = [];
-    board.forEach((row, i) => 
-        row.forEach((cell, j) => {
-            if (cell === "tiger") tigerPositions.push([i, j]);
-        })
-    );
+    // Check if all tigers are trapped
+    let tigerPositions = [];
+    for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+            if (board[i][j] === "tiger") {
+                tigerPositions.push([i, j]);
+            }
+        }
+    }
 
-    const allTigersTrapped = tigerPositions.every(([r, c]) => 
-        ![...connections, ...jumpConnections].some(([dr, dc]) => {
-            const newRow = r + dr;
-            const newCol = c + dc;
-            return newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5 && 
-                   isValidTigerMove(r, c, newRow, newCol).valid;
-        })
-    );
+    // If all tigers are trapped, goats win
+    let allTigersTrapped = tigerPositions.every(pos => {
+        return !hasValidMoves(pos[0], pos[1]);
+    });
 
     if (allTigersTrapped) {
-        showGameOver("goat"); // 🐐 Goats win
+        playSound('win');
+        showGameOver("Goats Win!", "All tigers are trapped!");
+        return true;
     }
+
+    return false;
 }
 
 // Toggle bot mode
@@ -846,19 +920,6 @@ function toggleAnimations() {
     localStorage.setItem('baghchal_settings', JSON.stringify(settings));
 }
 
-// Function to safely play sound
-function playSound(soundElement) {
-    if (soundEnabled && soundElement) {
-        soundElement.play().catch(error => {
-            console.log('Sound playback failed:', error);
-            // If win sound is missing, try playing a different sound
-            if (soundElement.id === 'win-sound') {
-                playSound(document.getElementById('move-sound'));
-            }
-        });
-    }
-}
-
 // Helper function to check if a position is a key strategic position
 function isKeyPosition(row, col) {
     // Center positions are key
@@ -1044,5 +1105,136 @@ function evaluateMove(fromRow, fromCol, toRow, toCol) {
     score += (Math.random() - 0.5) * score * randomFactor;
     
     return score;
+}
+
+// Show game over modal
+function showGameOver(winner, message) {
+    // Update game stats
+    gameStats.gamesPlayed++;
+    gameStats.wins[winner]++;
+    
+    // Update best time if applicable
+    if (gameStats.currentTime < gameStats.bestTime) {
+        gameStats.bestTime = gameStats.currentTime;
+    }
+    
+    // Stop the timer
+    stopTimer();
+    
+    // Show game over modal
+    const modal = document.getElementById("game-over-modal");
+    const winnerMessage = document.getElementById("winner-message");
+    const gameStatsElement = document.getElementById("game-stats");
+    
+    // Update winner message
+    winnerMessage.innerHTML = `
+        <h2>${winner === "tiger" ? " 🐐Goat Win!" : "🐅 Tiger Win!"}</h2>
+        <p>${message}</p>
+    `;
+    
+    // Update game stats
+    gameStatsElement.innerHTML = `
+        <div>Games Played: ${gameStats.gamesPlayed}</div>
+        <div>Tiger Wins: ${gameStats.wins.tiger}</div>
+        <div>Goat Wins: ${gameStats.wins.goat}</div>
+        <div>Best Time: ${formatTime(gameStats.bestTime)}</div>
+        <div>Current Time: ${formatTime(gameStats.currentTime)}</div>
+    `;
+    
+    // Show the modal
+    modal.style.display = "block";
+    
+    // Add event listener to the Play Again button
+    const playAgainBtn = document.getElementById("play-again-btn");
+    if (playAgainBtn) {
+        playAgainBtn.onclick = () => {
+            // Hide game over modal
+            modal.style.display = "none";
+            
+            // Hide game elements
+            const gameWrapper = document.getElementById('game-wrapper');
+            const header = document.getElementById('header');
+            if (gameWrapper) gameWrapper.style.display = 'none';
+            if (header) header.style.display = 'none';
+            
+            // Show setup modal
+            const setupModal = document.getElementById('game-setup-modal');
+            if (setupModal) {
+                setupModal.style.display = 'flex';
+            }
+            
+            // Reset game state
+            resetGame();
+            
+            // Reset game mode and difficulty selections
+            gameMode = null;
+            selectedDifficulty = null;
+            
+            // Update UI for mode selection
+            const modeButtons = document.querySelectorAll('.mode-btn');
+            modeButtons.forEach(btn => {
+                btn.style.borderColor = '#ddd';
+            });
+            
+            // Update UI for difficulty selection
+            const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+            difficultyButtons.forEach(btn => {
+                btn.style.borderColor = '#ddd';
+            });
+            
+            // Hide difficulty selection initially
+            const difficultySelection = document.getElementById('difficulty-selection');
+            if (difficultySelection) {
+                difficultySelection.style.display = 'none';
+            }
+        };
+    }
+}
+
+// Close game over modal
+function closeGameOver() {
+    const modal = document.getElementById("game-over-modal");
+    if (modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Check if a piece has valid moves
+function hasValidMoves(row, col) {
+    // For tigers, check both regular moves and jumps
+    if (board[row][col] === "tiger") {
+        // Check regular moves
+        for (let [dr, dc] of connections) {
+            const newRow = row + dr;
+            const newCol = col + dc;
+            if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5 && !board[newRow][newCol]) {
+                return true;
+            }
+        }
+        
+        // Check jump moves
+        for (let [dr, dc] of jumpConnections) {
+            const newRow = row + dr;
+            const newCol = col + dc;
+            const midRow = row + dr/2;
+            const midCol = col + dc/2;
+            if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5 && 
+                board[midRow][midCol] === "goat" && !board[newRow][newCol]) {
+                return true;
+            }
+        }
+    }
+    // For goats, only check regular moves
+    else if (board[row][col] === "goat") {
+        for (let [dr, dc] of connections) {
+            const newRow = row + dr;
+            const newCol = col + dc;
+            if (newRow >= 0 && newRow < 5 && newCol >= 0 && newCol < 5 && !board[newRow][newCol]) {
+                return true;
+            }
+        }
+    }
+    
+    return false; // No valid moves found
 }
 
