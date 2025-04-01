@@ -340,12 +340,22 @@ function moveTiger(fromRow, fromCol, toRow, toCol) {
         if (moveResult.isJump) {
             const captureRow = (fromRow + toRow) / 2;
             const captureCol = (fromCol + toCol) / 2;
-            board[captureRow][captureCol] = null; // Remove the captured goat
-            goatsCaptured++;
-            playSound('capture');
-            
-            // Add captured goat to the UI
-            addCapturedGoat();
+            if (board[captureRow][captureCol] === "goat") {
+                board[captureRow][captureCol] = null; // Remove the captured goat
+                goatsCaptured++;
+                playSound('capture');
+                
+                // Add captured goat to the UI
+                addCapturedGoat();
+                
+                // Check win condition after capture
+                if (goatsCaptured === 5) {
+                    playSound('win');
+                    showGameOver("Tigers Win!", "Captured 5 goats!");
+                    stopTimer(); // Stop the game timer
+                    return true;
+                }
+            }
         } else {
             playSound('tigermove');
         }
@@ -433,9 +443,10 @@ function addCapturedGoat() {
 // Check win conditions
 function checkWinConditions() {
     // Tigers win by capturing exactly 5 goats
-    if (goatsCaptured === 5) {
+    if (goatsCaptured >= 9) {
         playSound('win');
         showGameOver("Tigers Win!", "Captured 5 goats!");
+        stopTimer(); // Stop the game timer
         return true;
     }
 
@@ -457,6 +468,7 @@ function checkWinConditions() {
     if (allTigersTrapped) {
         playSound('win');
         showGameOver("Goats Win!", "All tigers are trapped!");
+        stopTimer(); // Stop the game timer
         return true;
     }
 
@@ -1111,7 +1123,11 @@ function evaluateMove(fromRow, fromCol, toRow, toCol) {
 function showGameOver(winner, message) {
     // Update game stats
     gameStats.gamesPlayed++;
-    gameStats.wins[winner]++;
+    if (winner === "Tigers Win!") {
+        gameStats.wins.tiger++;
+    } else {
+        gameStats.wins.goat++;
+    }
     
     // Update best time if applicable
     if (gameStats.currentTime < gameStats.bestTime) {
@@ -1128,7 +1144,7 @@ function showGameOver(winner, message) {
     
     // Update winner message
     winnerMessage.innerHTML = `
-        <h2>${winner === "tiger" ? " 🐐Goat Win!" : "🐅 Tiger Win!"}</h2>
+        <h2>${winner}</h2>
         <p>${message}</p>
     `;
     
