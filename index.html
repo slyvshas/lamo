@@ -22,21 +22,12 @@
             color: white;
             position: relative;
             overflow-x: hidden;
+            background: url('img/bg.jpeg') no-repeat center center fixed;
+            background-size: cover;
         }
 
-        #video-bg {
-            position: fixed;
-            right: 0;
-            bottom: 0;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            z-index: -1;
-            object-fit: cover;
-        }
-
-        .overlay {
+        body::before {
+            content: '';
             position: fixed;
             top: 0;
             left: 0;
@@ -231,11 +222,6 @@
     </style>
 </head>
 <body>
-    <video id="video-bg" autoplay muted loop>
-        <source src="img/bg.mp4" type="video/mp4">
-    </video>
-    <div class="overlay"></div>
-
     <div class="container">
         <div class="profile">
             <img src="img/profile.jpg" alt="Profile Picture">
@@ -251,11 +237,11 @@
 
         <div class="links">
             <div class="link">
-                <a href="tools/tools.html">Tools</a>
+                <a href="tools.html">Tools</a>
                 <div class="description">Collection of useful tools and utilities</div>
             </div>
             <div class="link">
-                <a href="htmlcode/baghchal.html">Baghchal</a>
+                <a href="baghchal.html">Baghchal</a>
                 <div class="description">Play the traditional Nepali game of Baghchal</div>
             </div>
         </div>
