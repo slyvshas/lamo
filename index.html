@@ -3,33 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio</title>
-    <link rel="stylesheet" href="style.css">
+    <title>My Links</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            color: white;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        #video-bg {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -1;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: -1;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .profile {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .profile img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin-bottom: 1.5rem;
+            border: 4px solid #4CAF50;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.3);
+            transition: transform 0.3s ease;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .profile img:hover {
+            transform: scale(1.05);
+        }
+
+        .profile h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.5rem;
+            color: #4CAF50;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .profile p {
+            color: #888;
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .social-links a:hover {
+            color: #4CAF50;
+            transform: translateY(-3px);
+        }
+
+        .links {
+            width: 100%;
+        }
+
+        .link {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 15px;
+            padding: 1.2rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(76, 175, 80, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .link::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(76, 175, 80, 0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .link:hover::before {
+            transform: translateX(100%);
+        }
+
+        .link:hover::after {
+            opacity: 1;
+        }
+
+        .link:hover {
+            transform: translateY(-5px) scale(1.02);
+            background: rgba(76, 175, 80, 0.2);
+            border-color: #4CAF50;
+            box-shadow: 
+                0 8px 25px rgba(76, 175, 80, 0.2),
+                0 0 0 2px rgba(76, 175, 80, 0.1);
+        }
+
+        .link a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 500;
+            display: block;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .link:hover a {
+            color: #4CAF50;
+            transform: scale(1.05);
+            text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+        }
+
+        .link .description {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            position: relative;
+            z-index: 1;
+            transition: all 0.3s ease;
+        }
+
+        .link:hover .description {
+            color: #fff;
+            transform: translateY(2px);
+        }
+
+        .footer {
+            margin-top: 3rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            text-shadow: 0 0 10px rgba(76, 175, 80, 0.1);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1.5rem;
+            }
+
+            .profile img {
+                width: 100px;
+                height: 100px;
+            }
+
+            .profile h1 {
+                font-size: 1.8rem;
+            }
+
+            .link {
+                padding: 1rem;
+            }
+
+            .social-links {
+                gap: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="portfolio-container">
-        <header>
-            <h1>Hi! I'm Sasank Karki</h1>
-            <a href="tools/tools.html" class="header-button">Check Out the Tools I Use</a>
-            <a href="htmlcode/baghchal.html" class="header-button">Play this awesome game from Nepal</a>
-        </header>
+    <video id="video-bg" autoplay muted loop>
+        <source src="img/bg.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
 
-        <section class="profile-section">
-            <div class="profile-img-container">
-                <img id="profile-pic" class="zoom-img" src="img/profile.jpg" alt="Profile Picture">
+    <div class="container">
+        <div class="profile">
+            <img src="img/profile.jpg" alt="Profile Picture">
+            <h1>Sasank Karki</h1>
+            <p>Welcome to my collection of tools and games</p>
+            <div class="social-links">
+                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
             </div>
-            <div class="bio">
-                <h2>About Me</h2>
-                <p>I'm from Nepal, and "Jay Nepal!"</p>
-            </div>
-        </section>
+        </div>
 
-        <footer>
-            <p> <a href="karkisasank36@gmail.com">karkisasank36@gmail.com</a></p>
-            <p><a href="blogs.html/blog.html" class="blog-button" target="_blank">Check this out!</a></p>
-        </footer>
+        <div class="links">
+            <div class="link">
+                <a href="tools.html">Tools</a>
+                <div class="description">Collection of useful tools and utilities</div>
+            </div>
+            <div class="link">
+                <a href="baghchal.html">Baghchal</a>
+                <div class="description">Play the traditional Nepali game of Baghchal</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2024 Sasank Karki. All rights reserved.</p>
+        </div>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
