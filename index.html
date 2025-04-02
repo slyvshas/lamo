@@ -13,6 +13,11 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             min-height: 100vh;
             display: flex;
@@ -21,9 +26,9 @@
             padding: 2rem;
             color: white;
             position: relative;
-            overflow-x: hidden;
             background: url('img/bg.jpeg') no-repeat center center fixed;
             background-size: cover;
+            background-attachment: fixed;
         }
 
         body::before {
@@ -42,11 +47,13 @@
             max-width: 600px;
             margin: 0 auto;
             position: relative;
+            z-index: 1;
         }
 
         .profile {
             text-align: center;
             margin-bottom: 2.5rem;
+            position: relative;
         }
 
         .profile img {
@@ -99,6 +106,7 @@
 
         .links {
             width: 100%;
+            margin-bottom: 2rem;
         }
 
         .link {
@@ -190,11 +198,12 @@
         }
 
         .footer {
-            margin-top: 3rem;
+            margin-top: auto;
             text-align: center;
             color: #666;
             font-size: 0.9rem;
             text-shadow: 0 0 10px rgba(76, 175, 80, 0.1);
+            padding: 1rem 0;
         }
 
         @media (max-width: 768px) {
@@ -241,9 +250,10 @@
                 <div class="description">Collection of useful tools and utilities</div>
             </div>
             <div class="link">
-                <a href="baghchal.html">Baghchal</a>
+                <a href="htmlcode/baghchal.html">Baghchal</a>
                 <div class="description">Play the traditional Nepali game of Baghchal</div>
             </div>
+            <!-- Add more links here -->
         </div>
 
         <div class="footer">
